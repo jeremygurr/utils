@@ -1,0 +1,17 @@
+#!/bin/bash
+
+message="$*"
+if [[ ! "$message" ]]; then
+  message="Updated stuff"
+fi
+
+set -x
+cd ~/s || exit 1
+echo "Compressing..."
+tar -cjf ~/p/utils/utils.tbz * .gitignore  || exit 1
+cd ~/p/utils || exit 1
+echo "Pushing..."
+git add . || exit 1
+git commit -m "$message" || exit 1
+git push || exit 1
+
