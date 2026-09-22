@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./lib || exit 1
+
 message="$*"
 if [[ ! "$message" ]]; then
   message="Updated stuff"
@@ -7,9 +9,15 @@ fi
 
 set -x
 cd ~/s || exit 1
+
 echo "Compressing..."
 tar -cjf ~/p/utils/utils.tbz * .gitignore  || exit 1
 cd ~/p/utils || exit 1
+
+echo "Encrypting..."
+encrypt utils.tbz utils.tbz.enc || exit 1
+rm utils.tbz || exit 1
+
 echo "Pushing..."
 git add . || exit 1
 git commit -m "$message" || exit 1
